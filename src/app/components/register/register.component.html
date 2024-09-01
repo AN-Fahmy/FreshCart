@@ -1,0 +1,125 @@
+<section class="bg-light shadow rounded my-2 p-4">
+  <h1 class="text-success text-center">Register</h1>
+  <form [formGroup]="registerForm" (ngSubmit)="registerSubmit()">
+<!--################################# Name Input ##############################################-->
+    <div>
+      <label for="name">Name</label>
+      <input [ngClass]="{
+        'is-valid' : !registerForm.get('name')?.errors && registerForm.get('name')?.touched,
+        'is-invalid' : registerForm.get('name')?.errors && registerForm.get('name')?.touched
+      }" formControlName="name" type="text" id="name" class="form-control" placeholder="Enter Your Name...">
+      @if(registerForm.get('name')?.errors && registerForm.get('name')?.touched){
+        <div class="alert alert-danger my-2">
+          @if(registerForm.get('name')?.getError('required')){
+            <p class="m-0">Name Is Required</p>
+          } @else if(registerForm.get('name')?.getError('minlength')){
+            <p class="m-0">Name MinLenght is 3 Char</p>
+          }
+          @else if(registerForm.get('name')?.getError('maxlength')){
+          <p class="m-0">Name MaxLenght is 20 Char</p>
+          }
+        </div>
+      }
+    </div>
+
+<!--################################# Phone Input ##############################################-->
+    <div>
+      <label for="phone">phone</label>
+      <input [ngClass]="{
+        'is-valid' : registerForm.get('phone')?.errors && registerForm.get('phone')?.touched,
+        'is-invalid' : registerForm.get('phone')?.errors && registerForm.get('phone')?.touched
+      }" formControlName="phone" type="tel" id="phone" class="form-control" placeholder="Enter Your phone...">
+      @if(registerForm.get('phone')?.errors && registerForm.get('phone')?.touched){
+        <div class="alert alert-danger my-2">
+          @if(registerForm.get('phone')?.getError('required')){
+            <p class="m-0">phone Is Required</p>
+          } @else if(registerForm.get('phone')?.getError('pattern')){
+            <p class="m-0">Please Enter Valid Phone</p>
+          }
+        </div>
+      }
+    </div>
+
+<!--################################# Email Input ##############################################-->
+    <div>
+      <label for="email">email</label>
+      <input [ngClass]="{
+        'is-valid': !registerForm.get('email')?.errors && registerForm.get('email')?.touched,
+        'is-invalid': registerForm.get('email')?.errors && registerForm.get('email')?.touched,
+      }" formControlName="email" type="email" id="email" class="form-control" placeholder="Enter Your email...">
+
+      @if(registerForm.get('email')?.errors && registerForm.get('email')?.touched){
+        <div class="alert alert-danger my-2">
+          @if(registerForm.get('email')?.getError('required')){
+            <p class="m-0">email Is Required</p>
+          } @else if(registerForm.get('email')?.getError('email')){
+            <p class="m-0">Please Enter Valid email</p>
+          }
+        </div>
+      }
+    </div>
+
+<!--################################# Password Input ##############################################-->
+    <div>
+      <label for="password">Password</label>
+      <div class="position-relative">
+        <input [ngClass]="{
+          'is-valid': !registerForm.get('password')?.errors && registerForm.get('password')?.touched,
+          'is-invalid': registerForm.get('password')?.errors && registerForm.get('password')?.touched,
+        }" #inputPassword formControlName="password" type="password" id="password" class="form-control" placeholder="Enter Your password...">
+        <span  class="show position-absolute cr">
+          <i (click)="showPassword()" #showPasswordIcone class="fa-solid fa-eye-slash"></i>
+          <i (click)="hidePassword()" #hidePasswordIcone class="fa-solid fa-eye d-none"></i>
+        </span>
+      </div>
+
+      @if(registerForm.get('password')?.errors && registerForm.get('password')?.touched){
+        <div class="alert alert-danger my-2">
+          @if(registerForm.get('password')?.getError('required')){
+            <p class="m-0">password Is Required</p>
+          } @else if(registerForm.get('password')?.getError('pattern')){
+            <p class="m-0">Please Enter Valid password</p>
+          }
+        </div>
+      }
+    </div>
+
+<!--################################# rePassword Input ##############################################-->
+    <div>
+      <label for="rePassword">rePassword</label>
+      <div class="position-relative">
+        <input [ngClass]="{
+          'is-valid': !registerForm.getError('mismatch') && registerForm.get('rePassword')?.touched,
+          'is-invalid': registerForm.getError('mismatch') && registerForm.get('rePassword')?.touched,
+        }" #inputRepassword formControlName="rePassword" type="password" id="rePassword" class="form-control" placeholder="Enter Your rePassword...">
+        <span class="show position-absolute cr">
+          <i (click)="showRepassword()" #showRepasswordIcone class="fa-solid fa-eye-slash"></i>
+          <i (click)="hideRepassword()" #hideRepasswordIcone class="fa-solid fa-eye d-none"></i>
+        </span>
+      </div>
+
+      @if(registerForm.getError('mismatch') && registerForm.get('rePassword')?.touched){
+        <div class="alert alert-danger my-2">
+          <p class="m-0">The Confirm Password Is InValid</p>
+        </div>
+      }
+
+    </div>
+
+<!--################################# Button Submit ##############################################-->
+    <button [disabled]="isLoading || registerForm.invalid" class="btn btn-success d-block ms-auto mt-2" type="submit">
+      @if(isLoading){
+        <span><i class="fas fa-spin fa-spinner"></i></span>
+      }
+      Register
+    </button>
+
+<!--################################# Alert Message When Finishing ##############################################-->
+    @if(msgAlert){
+      <p class="alert alert-danger my-2">{{msgAlert}}</p>
+    } @else if(msgSuccess){
+      <p class="alert alert-success my-2">{{msgSuccess}}</p>
+    }
+  </form>
+
+</section>

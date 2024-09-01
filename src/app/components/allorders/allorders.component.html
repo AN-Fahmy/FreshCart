@@ -1,0 +1,24 @@
+<section class="bg-light rounded shadow w-75 mx-auto my-2 p-4">
+  <div class="head position-relative">
+    <h3 class="text-success my-3 fw-bold">Total Orders : {{allUserOrders.length}} Orders</h3>
+    <span class="text-dark cr" routerLink="/home">Back <i class="fa-solid fa-right-from-bracket"></i></span>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      @for (order of allUserOrders.reverse(); track $index) {
+        <div>
+          <h6>Order ID : {{order.id}}</h6>
+          <h6>Total Items : {{order.cartItems.length}}</h6>
+          <h6>Total Price : {{order.totalOrderPrice | currency: "GBP"}}</h6>
+          @if (order.paidAt) {
+            <h6>Date : {{order.paidAt}}</h6>
+          } @else {
+            <h6>Date : -</h6>
+          }
+          <h6>Payment Method : {{order.paymentMethodType}}</h6>
+        </div>
+        <hr>
+      }
+    </div>
+  </div>
+</section>

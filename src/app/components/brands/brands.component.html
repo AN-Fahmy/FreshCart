@@ -1,0 +1,13 @@
+<section>
+  <h1 class="text-success text-center my-2">All Brands</h1>
+  <div class="row g-4">
+    @for (brand of allBrands; track $index) {
+      <div class="col-md-3">
+        <div class="shadow rounded p-2 text-center cr" routerLink="/products">
+          <img [src]="brand.image" class="w-100" [alt]="brand.name">
+          <h4>{{brand.name}}</h4>
+        </div>
+      </div>
+    }
+  </div>
+</section>
