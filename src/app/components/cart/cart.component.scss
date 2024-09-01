@@ -3,3 +3,14 @@
     display: block !important;
   }
 }
+@media (max-width: 576px) {
+  h1{
+    font-size: 22px;
+  }
+  .cartHeader h2{
+    font-size: 18px;
+  }
+  .cartHeader h5{
+    font-size: 16px;
+  }
+}

@@ -1,6 +1,6 @@
 <section class="my-3">
   <h1 class="text-success text-center">All Products</h1>
-  <input [(ngModel)] = "dataSearch" type="text" class="form-control w-50 mx-auto my-2" placeholder="Search By Name...">
+  <input [(ngModel)] = "dataSearch" type="text" class="form-control w-75 mx-auto my-2" placeholder="Search By Name...">
   <div class="row g-4">
     @for (product of allProducts | search : dataSearch; track product.id) {
       <div class="col-lg-3 col-md-4">

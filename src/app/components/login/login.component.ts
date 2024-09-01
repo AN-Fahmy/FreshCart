@@ -21,8 +21,6 @@ export class LoginComponent implements OnDestroy {
 
 /*########################################## Global Properties ############################################# */
   isLoading:boolean = false
-  msgAlert:string = ''
-  msgSuccess:string = ''
   allLoginSubmit!:Subscription
 
 /*########################################## FormGroup And Validtion Form ############################################# */
@@ -38,8 +36,6 @@ export class LoginComponent implements OnDestroy {
       this.allLoginSubmit = this._AuthService.setLoginFrom(this.loginForm.value).subscribe({
         next:(res)=>{
           this.isLoading = false
-          this.msgAlert = ''
-          this.msgSuccess = "Success"
           if(res.message == 'success'){
             // Save Token
             localStorage.setItem("userToken", res.token)
@@ -49,13 +45,12 @@ export class LoginComponent implements OnDestroy {
             this._Router.navigate(['/home'])
           }
         },
-        error:(err:HttpErrorResponse)=>{
+        error:(err)=>{
           this.isLoading = false
-          this.msgAlert = err.error.message
-          this.msgSuccess = ""
         }
       })
     } else{
+      this.isLoading = false
       this.loginForm.markAllAsTouched()
     }
   }

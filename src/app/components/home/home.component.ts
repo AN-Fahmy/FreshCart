@@ -62,22 +62,23 @@ export class HomeComponent implements OnInit , OnDestroy {
     autoplayTimeout:2000,
     autoplayHoverPause:true,
     dots: false,
+    navText:['',''],
     navSpeed: 700,
     responsive: {
       0: {
-        items: 1
-      },
-      400: {
         items: 2
       },
-      740: {
+      400: {
         items: 3
+      },
+      740: {
+        items: 4
       },
       940: {
         items: 6
       }
     },
-    nav: false
+    nav: true
   }
 
   customMainCategory: OwlOptions = {

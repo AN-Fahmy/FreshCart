@@ -7,15 +7,15 @@
     <div class="col-12">
       @for (order of allUserOrders.reverse(); track $index) {
         <div>
-          <h6>Order ID : {{order.id}}</h6>
-          <h6>Total Items : {{order.cartItems.length}}</h6>
-          <h6>Total Price : {{order.totalOrderPrice | currency: "GBP"}}</h6>
+          <h6>Order ID : <span class="text-success">{{order.id}}</span></h6>
+          <h6>Total Items : <span class="text-success">{{order.cartItems.length}}</span></h6>
+          <h6>Total Price : <span class="text-success">{{order.totalOrderPrice | currency: "GBP"}}</span></h6>
           @if (order.paidAt) {
-            <h6>Date : {{order.paidAt}}</h6>
+            <h6>Date : <span class="text-success">{{order.paidAt}}</span></h6>
           } @else {
-            <h6>Date : -</h6>
+            <h6>Date : <span class="text-success">-</span></h6>
           }
-          <h6>Payment Method : {{order.paymentMethodType}}</h6>
+          <h6>Payment Method : <span class="text-success">{{order.paymentMethodType}}</span></h6>
         </div>
         <hr>
       }

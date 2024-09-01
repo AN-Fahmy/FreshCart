@@ -21,8 +21,6 @@ export class RegisterComponent implements OnDestroy {
 
   /*##################################### Global Properties ##################################### */
   allRegisterSubmit!:Subscription
-  msgAlert:string = ''
-  msgSuccess:string = ''
   isLoading:boolean = false
 
   /*##################################### FormGroup And Validattion Form ##################################### */
@@ -47,18 +45,14 @@ export class RegisterComponent implements OnDestroy {
       this.isLoading = true
       this.allRegisterSubmit = this._AuthService.setRegisterForm(this.registerForm.value).subscribe({
         next:(res)=>{
-          console.log(res)
-          if(res.message == 'success'){
           this.isLoading = false
-            this.msgAlert = ''
-            this.msgSuccess = 'Success'
-            setTimeout(() => {
-              this._Router.navigate(['/login'])
-            }, 1500);
+          if(res.message == 'success'){
+            this._Router.navigate(['/login'])
+          } else{
+            this.isLoading = false
           }
         },
-        error:(err:HttpErrorResponse)=>{
-          this.msgAlert = err.error.message
+        error:(err)=>{
           this.isLoading = false
         }
       })

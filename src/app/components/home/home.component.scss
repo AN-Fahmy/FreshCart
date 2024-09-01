@@ -24,3 +24,9 @@ button{
 .card:hover .heart{
   right: 10px;
 }
+
+@media (max-width: 576px) {
+  .titleCat{
+    font-size: 18px;
+  }
+}

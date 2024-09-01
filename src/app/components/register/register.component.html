@@ -26,7 +26,7 @@
     <div>
       <label for="phone">phone</label>
       <input [ngClass]="{
-        'is-valid' : registerForm.get('phone')?.errors && registerForm.get('phone')?.touched,
+        'is-valid' : !registerForm.get('phone')?.errors && registerForm.get('phone')?.touched,
         'is-invalid' : registerForm.get('phone')?.errors && registerForm.get('phone')?.touched
       }" formControlName="phone" type="tel" id="phone" class="form-control" placeholder="Enter Your phone...">
       @if(registerForm.get('phone')?.errors && registerForm.get('phone')?.touched){
@@ -114,12 +114,6 @@
       Register
     </button>
 
-<!--################################# Alert Message When Finishing ##############################################-->
-    @if(msgAlert){
-      <p class="alert alert-danger my-2">{{msgAlert}}</p>
-    } @else if(msgSuccess){
-      <p class="alert alert-success my-2">{{msgSuccess}}</p>
-    }
   </form>
 
 </section>

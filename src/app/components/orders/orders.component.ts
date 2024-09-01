@@ -28,9 +28,9 @@ export class OrdersComponent implements OnDestroy {
 
   /*##################################### FormGroup And Validattion Form ##################################### */
   paymentForm:FormGroup = this._FormBuilder.group({
-    details: [null, [Validators.required, Validators.pattern(/^[\w]{3,}$/)]],
+    details: [null, [Validators.required]],
     phone: [null, [Validators.required, Validators.pattern(/^01[0125][0-9]{8}$/)]],
-    city: [null, [Validators.required, Validators.pattern(/^[a-zA-Z]{3,}$/)]]
+    city: [null, [Validators.required]]
   })
 
   /*##################################### Electronic payment ##################################### */
