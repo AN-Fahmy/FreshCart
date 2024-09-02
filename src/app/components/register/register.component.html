@@ -24,7 +24,7 @@
 
 <!--################################# Phone Input ##############################################-->
     <div>
-      <label for="phone">phone</label>
+      <label for="phone">Phone</label>
       <input [ngClass]="{
         'is-valid' : !registerForm.get('phone')?.errors && registerForm.get('phone')?.touched,
         'is-invalid' : registerForm.get('phone')?.errors && registerForm.get('phone')?.touched
@@ -42,7 +42,7 @@
 
 <!--################################# Email Input ##############################################-->
     <div>
-      <label for="email">email</label>
+      <label for="email">Email</label>
       <input [ngClass]="{
         'is-valid': !registerForm.get('email')?.errors && registerForm.get('email')?.touched,
         'is-invalid': registerForm.get('email')?.errors && registerForm.get('email')?.touched,
@@ -51,9 +51,9 @@
       @if(registerForm.get('email')?.errors && registerForm.get('email')?.touched){
         <div class="alert alert-danger my-2">
           @if(registerForm.get('email')?.getError('required')){
-            <p class="m-0">email Is Required</p>
+            <p class="m-0">Email Is Required</p>
           } @else if(registerForm.get('email')?.getError('email')){
-            <p class="m-0">Please Enter Valid email</p>
+            <p class="m-0">Please Enter Valid Email</p>
           }
         </div>
       }
@@ -76,9 +76,9 @@
       @if(registerForm.get('password')?.errors && registerForm.get('password')?.touched){
         <div class="alert alert-danger my-2">
           @if(registerForm.get('password')?.getError('required')){
-            <p class="m-0">password Is Required</p>
+            <p class="m-0">Password Is Required</p>
           } @else if(registerForm.get('password')?.getError('pattern')){
-            <p class="m-0">Please Enter Valid password</p>
+            <p class="m-0">Password Must Be More Than 6 Char</p>
           }
         </div>
       }
@@ -100,7 +100,7 @@
 
       @if(registerForm.getError('mismatch') && registerForm.get('rePassword')?.touched){
         <div class="alert alert-danger my-2">
-          <p class="m-0">The Confirm Password Is InValid</p>
+          <p class="m-0">The Confirm Password Is Invalid</p>
         </div>
       }
 

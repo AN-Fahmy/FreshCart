@@ -40,7 +40,7 @@
           @if(loginForm.get('password')?.getError('required') && loginForm.get('password')?.touched){
           <p class="m-0">Password Is Required</p>
           } @else if (loginForm.get('password')?.getError('pattern') && loginForm.get('password')?.touched) {
-            <p class="m-0">Password Is InValid</p>
+            <p class="m-0">Password Must Be More Than 6 Char</p>
           }
         </div>
       }
