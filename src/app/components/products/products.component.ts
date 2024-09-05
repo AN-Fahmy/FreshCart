@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { ProductsService } from '../../core/services/products.service';
 import { CartService } from '../../core/services/cart.service';
 import { ToastrService } from 'ngx-toastr';
@@ -29,14 +29,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
   allProductsSub!:Subscription
   CartsSub!:Subscription
   wishSub!:Subscription
-  allProducts:IProduct[] = []
-  dataSearch:string = ''
+  allProducts:WritableSignal<IProduct[]> = signal([])
+  dataSearch:WritableSignal<string> = signal('')
 
   /*##################################### Get All Product ##################################### */
   ngOnInit(): void {
     this.allProductsSub = this._ProductsService.getAllProducts().subscribe({
       next:(res)=>{
-        this.allProducts = res.data
+        this.allProducts.set(res.data)
       }
     })
   }

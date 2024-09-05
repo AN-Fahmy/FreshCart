@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { BrandsService } from '../../core/services/brands.service';
 import { IBrands } from '../../core/interfaces/ibrands';
 import { RouterLink } from '@angular/router';
@@ -17,13 +17,13 @@ export class BrandsComponent implements OnInit, OnDestroy {
 
   /*##################################### Global Properties ##################################### */
   allBrandsSub!:Subscription
-  allBrands:IBrands[] = []
+  allBrands:WritableSignal<IBrands[]> = signal([])
 
   /*##################################### Get All Brands ##################################### */
   ngOnInit(): void {
     this.allBrandsSub = this._BrandsService.getAllBrands().subscribe({
       next:(res)=>{
-        this.allBrands = res.data
+        this.allBrands.set(res.data)
       }
     })
   }

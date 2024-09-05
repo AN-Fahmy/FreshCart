@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy, signal, WritableSignal } from '@angular/core';
 import { CategoriesService } from '../../core/services/categories.service';
 import { ICategories } from '../../core/interfaces/icategories';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
@@ -18,13 +18,13 @@ export class CategoriesComponent implements OnDestroy {
 
   /*##################################### Global Properties ##################################### */
   allCategoriesSub!:Subscription
-  allCategories:ICategories[] = []
+  allCategories:WritableSignal<ICategories[]> = signal([])
 
   /*##################################### Get All Product And Categories ##################################### */
   ngOnInit(): void {
     this.allCategoriesSub = this._CategoriesService.getAllCategories().subscribe({
       next:(res)=>{
-        this.allCategories = res.data
+        this.allCategories.set(res.data)
       }
     })
   }

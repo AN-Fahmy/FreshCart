@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { CartService } from '../../core/services/cart.service';
 import { ICart } from '../../core/interfaces/icart';
 import { CurrencyPipe } from '@angular/common';
@@ -21,17 +21,18 @@ export class CartComponent implements OnInit , OnDestroy{
 
   /*##################################### Global Properties ##################################### */
   allProductsCart!:Subscription
-  productsCart:ICart = {} as ICart
-  totalItems:number = 0
+  productsCart:WritableSignal<ICart> = signal({} as ICart)
+  // totalItems:number = 0
+  totalItems:WritableSignal<number> = signal(0)
   displayBtn:boolean = true
 
   /*##################################### Display Products In Cart ##################################### */
   ngOnInit(): void {
     this.allProductsCart = this._CartService.displayCart().subscribe({
       next:(res)=>{
-        this.totalItems = res.numOfCartItems
-        this.productsCart = res.data
-        if(this.totalItems > 0){
+        this.totalItems.set(res.numOfCartItems)
+        this.productsCart.set(res.data)
+        if(this.totalItems() > 0){
           this.displayBtn = false
         }
       }
@@ -43,7 +44,7 @@ export class CartComponent implements OnInit , OnDestroy{
     if(count > 0){
       this._CartService.updateCartQuabtity(id, count).subscribe({
         next:(res)=>{
-          this.productsCart = res.data
+          this.productsCart.set(res.data)
           this._ToastrService.success('Done !')
         }
       })
@@ -55,11 +56,11 @@ export class CartComponent implements OnInit , OnDestroy{
     this._CartService.removeSpecificItem(id).subscribe({
       next:(res)=>{
         if(res.status == "success"){
-          this.productsCart = res.data
-          this.totalItems = res.numOfCartItems
+          this.productsCart.set(res.data)
+          this.totalItems.set(res.numOfCartItems)
           // this._CartService.cartNumber.next(res.numOfCartItems)
           this._CartService.cartNumber.set(res.numOfCartItems)
-          if(this.totalItems == 0){
+          if(this.totalItems() == 0){
             this.displayBtn = true
           }
           this._ToastrService.error('Deleted !')
@@ -73,8 +74,8 @@ export class CartComponent implements OnInit , OnDestroy{
     this._CartService.clearAllProducrCart().subscribe({
       next:(res)=>{
         if(res.message == 'success'){
-          this.productsCart = {} as ICart
-          this.totalItems = 0
+          this.productsCart = signal({} as ICart)
+          this.totalItems.set(0)
           // this._CartService.cartNumber.next(0)
           this._CartService.cartNumber.set(0)
           this.displayBtn = true

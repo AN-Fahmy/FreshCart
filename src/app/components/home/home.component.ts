@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, OnInit, signal, ViewChild, WritableSignal } from '@angular/core';
 import { ProductsService } from '../../core/services/products.service';
 import { IProduct } from '../../core/interfaces/iproduct';
 import { CurrencyPipe } from '@angular/common';
@@ -31,23 +31,23 @@ export class HomeComponent implements OnInit , OnDestroy {
   private readonly _ToastrService = inject(ToastrService)
 
   /*##################################### Global Properties ##################################### */
-  allProducts:IProduct[] = []
-  allCategories:ICategories[] = []
+  allProducts:WritableSignal<IProduct[]> = signal([])
+  allCategories:WritableSignal<ICategories[]> = signal([])
   getAllProductSub!:Subscription
   getALlCategoriesSub!:Subscription
-  dataSearch:string = ''
+  dataSearch:WritableSignal<string> = signal('')
 
   /*##################################### Get All Product And Categories ##################################### */
   ngOnInit(): void {
     this.getAllProductSub = this._ProductsService.getAllProducts().subscribe({
       next:(res)=>{
-        this.allProducts = res.data
+        this.allProducts.set(res.data)
       }
     })
 
     this.getALlCategoriesSub = this._CategoriesService.getAllCategories().subscribe({
       next:(res)=>{
-        this.allCategories = res.data
+        this.allCategories.set(res.data)
       }
     })
   }

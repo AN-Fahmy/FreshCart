@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { OrdersService } from '../../core/services/orders.service';
 import { AuthService } from '../../core/services/auth.service';
 import { IOrders } from '../../core/interfaces/iorders';
@@ -21,7 +21,7 @@ export class AllordersComponent implements OnInit , OnDestroy {
   /*##################################### Global Properties ##################################### */
   allOrdersSub!:Subscription
   userData!:any
-  allUserOrders:IOrders[] = []
+  allUserOrders:WritableSignal<IOrders[]> = signal([])
 
   /*##################################### Get All Orders From User ##################################### */
   ngOnInit(): void {
@@ -30,7 +30,7 @@ export class AllordersComponent implements OnInit , OnDestroy {
 
     this.allOrdersSub = this._OrdersService.allOrders(this.userData.id).subscribe({
       next:(res)=>{
-        this.allUserOrders = res
+        this.allUserOrders.set(res)
       }
     })
   }
