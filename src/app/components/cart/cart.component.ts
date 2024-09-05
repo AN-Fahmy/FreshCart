@@ -57,7 +57,8 @@ export class CartComponent implements OnInit , OnDestroy{
         if(res.status == "success"){
           this.productsCart = res.data
           this.totalItems = res.numOfCartItems
-          this._CartService.cartNumber.next(res.numOfCartItems)
+          // this._CartService.cartNumber.next(res.numOfCartItems)
+          this._CartService.cartNumber.set(res.numOfCartItems)
           if(this.totalItems == 0){
             this.displayBtn = true
           }
@@ -74,7 +75,8 @@ export class CartComponent implements OnInit , OnDestroy{
         if(res.message == 'success'){
           this.productsCart = {} as ICart
           this.totalItems = 0
-          this._CartService.cartNumber.next(0)
+          // this._CartService.cartNumber.next(0)
+          this._CartService.cartNumber.set(0)
           this.displayBtn = true
         }
       }

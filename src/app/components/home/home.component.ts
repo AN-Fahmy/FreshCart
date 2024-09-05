@@ -101,7 +101,8 @@ export class HomeComponent implements OnInit , OnDestroy {
       next:(res)=>{
         if(res.status == "success"){
           this._ToastrService.success(res.message)
-          this._CartService.cartNumber.next(res.numOfCartItems)
+          // this._CartService.cartNumber.next(res.numOfCartItems)
+          this._CartService.cartNumber.set(res.numOfCartItems)
         }
       }
     })

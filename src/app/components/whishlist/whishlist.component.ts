@@ -45,7 +45,8 @@ export class WhishlistComponent implements OnInit, OnDestroy {
           console.log(res);
           this.deleteAfterAdd(productId)
           this._ToastrService.success(res.message)
-          this._CartService.cartNumber.next(res.numOfCartItems)
+          // this._CartService.cartNumber.next(res.numOfCartItems)
+          this._CartService.cartNumber.set(res.numOfCartItems)
         }
       }
     })

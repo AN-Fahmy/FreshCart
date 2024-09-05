@@ -1,4 +1,4 @@
-import { Component, DoCheck, inject, OnInit } from '@angular/core';
+import { Component, computed, DoCheck, inject, OnInit, Signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
 
@@ -15,7 +15,8 @@ export class NavblankComponent implements OnInit{
   private readonly _Router = inject(Router)
 
   /*##################################### Global Properties ##################################### */
-  countNumber: number = 0
+  // countNumber: number = 0
+  countNumber: Signal<number> = computed( ()=> this._CartService.cartNumber() )
 
   logOut():void{
     localStorage.removeItem('userToken')
@@ -26,15 +27,16 @@ export class NavblankComponent implements OnInit{
   ngOnInit(): void {
     this._CartService.displayCart().subscribe({
       next:(res)=>{
-        this._CartService.cartNumber.next(res.numOfCartItems)
+        // this._CartService.cartNumber.next(res.numOfCartItems)
+        this._CartService.cartNumber.set(res.numOfCartItems)
       }
     })
 
-    this._CartService.cartNumber.subscribe({
-      next:(data)=>{
-        this.countNumber = data
-      }
-    })
+    // this._CartService.cartNumber.subscribe({
+    //   next:(data)=>{
+    //     this.countNumber = data
+    //   }
+    // })
   }
 
 }
