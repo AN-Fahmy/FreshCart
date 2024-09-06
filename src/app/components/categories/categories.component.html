@@ -15,9 +15,9 @@
   <div class="row g-4">
     @for (product of allCategories(); track $index) {
       <div class="col-lg-3 col-md-4">
-        <div class="shadow rounded text-center p-2 my-2 cr" routerLink="/products">
-          <img [src]="allCategories()[$index].image" height="250px" alt="">
-          <h4 class="mt-2">{{allCategories()[$index].name}}</h4>
+        <div class="shadow rounded text-center p-2 my-2 cr" [routerLink]="['/subCategory', product._id, product.name]">
+          <img [src]="product.image" height="250px" class="w-100" [alt]="product.name">
+          <h4 class="mt-2">{{product.name}}</h4>
         </div>
       </div>
     }

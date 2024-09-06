@@ -28,6 +28,7 @@ export const routes: Routes = [
     {path: 'details/:id', loadComponent:()=> import('./components/details/details.component').then((c)=> c.DetailsComponent),title:'Details'},
     {path: 'orders/:id', loadComponent: ()=>import('./components/orders/orders.component').then((c)=> c.OrdersComponent),title:'Check Out'},
     {path: 'allorders', loadComponent: ()=>import('./components/allorders/allorders.component').then((c)=> c.AllordersComponent),title:'All Orders'},
+    {path: 'subCategory/:id/:name', loadComponent: ()=>import('./components/sub-category/sub-category.component').then((c)=> c.SubCategoryComponent), title:'Spacific Category'}
   ]},
 
   {path:'**', loadComponent: ()=>import('./components/notfound/notfound.component').then((c)=> c.NotfoundComponent), title:'Not Found'}

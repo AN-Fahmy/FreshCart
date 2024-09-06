@@ -27,7 +27,7 @@ export class NavblankComponent implements OnInit{
   ngOnInit(): void {
     this._CartService.displayCart().subscribe({
       next:(res)=>{
-          // this._CartService.cartNumber.next(res.numOfCartItems)
+        // this._CartService.cartNumber.next(res.numOfCartItems)
         this._CartService.cartNumber.set(res.numOfCartItems)
       }
     })

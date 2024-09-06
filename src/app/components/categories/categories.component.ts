@@ -20,7 +20,7 @@ export class CategoriesComponent implements OnDestroy {
   allCategoriesSub!:Subscription
   allCategories:WritableSignal<ICategories[]> = signal([])
 
-  /*##################################### Get All Product And Categories ##################################### */
+  /*##################################### Get All Categories ##################################### */
   ngOnInit(): void {
     this.allCategoriesSub = this._CategoriesService.getAllCategories().subscribe({
       next:(res)=>{

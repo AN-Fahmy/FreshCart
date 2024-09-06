@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 import { ProductsService } from '../../core/services/products.service';
 import { CartService } from '../../core/services/cart.service';
 import { ToastrService } from 'ngx-toastr';
@@ -31,12 +31,19 @@ export class ProductsComponent implements OnInit, OnDestroy {
   wishSub!:Subscription
   allProducts:WritableSignal<IProduct[]> = signal([])
   dataSearch:WritableSignal<string> = signal('')
+  wishListIds:Signal<string[]> = computed(()=> this._WishlistService.wishListId())
 
   /*##################################### Get All Product ##################################### */
   ngOnInit(): void {
     this.allProductsSub = this._ProductsService.getAllProducts().subscribe({
       next:(res)=>{
         this.allProducts.set(res.data)
+      }
+    })
+
+    this._WishlistService.getProductWishlist().subscribe({
+      next:(res)=>{
+        this._WishlistService.wishListId.set(res.data.map((item:any)=> item._id ))
       }
     })
   }
@@ -60,11 +67,22 @@ export class ProductsComponent implements OnInit, OnDestroy {
       next:(res)=>{
         if(res.status == 'success'){
           this._ToastrService.success(res.message)
+          this._WishlistService.wishListId.set(res.data)
         }
       }
     })
   }
 
+  deletewishlistItem(productId:string):void{
+    this._WishlistService.removeProductWishlist(productId).subscribe({
+      next:(res)=>{
+        if(res.status == "success"){
+          this._ToastrService.error('Delete It !')
+          this._WishlistService.wishListId.set(res.data)
+        }
+      }
+    })
+  }
   /*##################################### Unsubscrib ##################################### */
   ngOnDestroy(): void {
     this.allProductsSub?.unsubscribe()

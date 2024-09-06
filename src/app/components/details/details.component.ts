@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 import { ProductsService } from '../../core/services/products.service';
 import { ActivatedRoute } from '@angular/router';
 import { IProduct } from '../../core/interfaces/iproduct';
@@ -30,6 +30,7 @@ export class DetailsComponent implements OnInit, OnDestroy{
   cartSub!:Subscription
   wishListSub!:Subscription
   detailsProduct:IProduct | null = null
+  wishListIds:Signal<string[]> = computed(()=> this._WishlistService.wishListId())
 
   /*##################################### Get Id Product And Get Details Product ##################################### */
   ngOnInit(): void {
@@ -41,6 +42,12 @@ export class DetailsComponent implements OnInit, OnDestroy{
             this.detailsProduct = res.data
           }
         })
+      }
+    })
+
+    this._WishlistService.getProductWishlist().subscribe({
+      next:(res)=>{
+        this._WishlistService.wishListId.set(res.data.map((item:any)=> item._id ))
       }
     })
   }
@@ -74,12 +81,28 @@ export class DetailsComponent implements OnInit, OnDestroy{
     })
   }
 
-  /*##################################### Add Product To WishList ##################################### */
-  addWishlist(productId:string):void{
-    this.wishListSub = this._WishlistService.addProductToWishlist(productId).subscribe({
+  /*##################################### Add Products To WishList ##################################### */
+  addWishList(productId:string):void{
+    this._WishlistService.addProductToWishlist(productId).subscribe({
       next:(res)=>{
         if(res.status == 'success'){
           this._ToastrService.success(res.message)
+          this._WishlistService.wishListId.set(res.data)
+          console.log(this.wishListIds());
+
+        }
+      }
+    })
+  }
+
+  /*##################################### Delete Product In WishList ##################################### */
+  deletewishlistItem(productId:string):void{
+    this._WishlistService.removeProductWishlist(productId).subscribe({
+      next:(res)=>{
+        if(res.status == 'success'){
+          this._ToastrService.error('Deleted !')
+          this._WishlistService.wishListId.set(res.data)
+          console.log(this.wishListIds());
         }
       }
     })

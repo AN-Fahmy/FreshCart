@@ -1,8 +1,8 @@
-import { Component, ElementRef, inject, OnDestroy, OnInit, signal, ViewChild, WritableSignal } from '@angular/core';
+import { Component, computed, ElementRef, inject, OnDestroy, OnInit, Signal, signal, ViewChild, WritableSignal } from '@angular/core';
 import { ProductsService } from '../../core/services/products.service';
 import { IProduct } from '../../core/interfaces/iproduct';
-import { CurrencyPipe } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { CurrencyPipe, NgClass } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { CategoriesService } from '../../core/services/categories.service';
 import { ICategories } from '../../core/interfaces/icategories';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
@@ -17,7 +17,7 @@ import { HeartDirective } from '../../core/directive/heart.directive';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CurrencyPipe,RouterLink,CarouselModule, SearchPipe,FormsModule, HeartDirective],
+  imports: [CurrencyPipe,RouterLink,CarouselModule, SearchPipe,FormsModule, HeartDirective, NgClass],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -27,7 +27,6 @@ export class HomeComponent implements OnInit , OnDestroy {
   private readonly _CategoriesService = inject(CategoriesService)
   private readonly _CartService = inject(CartService)
   private readonly _WishlistService = inject(WishlistService)
-  private readonly _Router = inject(Router)
   private readonly _ToastrService = inject(ToastrService)
 
   /*##################################### Global Properties ##################################### */
@@ -36,6 +35,7 @@ export class HomeComponent implements OnInit , OnDestroy {
   getAllProductSub!:Subscription
   getALlCategoriesSub!:Subscription
   dataSearch:WritableSignal<string> = signal('')
+  wishListIds:Signal<string[]> = computed(()=> this._WishlistService.wishListId())
 
   /*##################################### Get All Product And Categories ##################################### */
   ngOnInit(): void {
@@ -50,6 +50,13 @@ export class HomeComponent implements OnInit , OnDestroy {
         this.allCategories.set(res.data)
       }
     })
+
+    this._WishlistService.getProductWishlist().subscribe({
+      next:(res)=>{
+        this._WishlistService.wishListId.set(res.data.map((item:any)=> item._id ))
+      }
+    })
+
   }
 
   /*##################################### Slider Options Categories ##################################### */
@@ -114,6 +121,19 @@ export class HomeComponent implements OnInit , OnDestroy {
       next:(res)=>{
         if(res.status == 'success'){
           this._ToastrService.success(res.message)
+          this._WishlistService.wishListId.set(res.data)
+        }
+      }
+    })
+  }
+
+  /*##################################### Delete Product In WishList ##################################### */
+  deletewishlistItem(productId:string):void{
+    this._WishlistService.removeProductWishlist(productId).subscribe({
+      next:(res)=>{
+        if(res.status == 'success'){
+          this._ToastrService.error('Deleted !')
+          this._WishlistService.wishListId.set(res.data)
         }
       }
     })

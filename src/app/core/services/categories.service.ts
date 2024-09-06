@@ -16,4 +16,8 @@ export class CategoriesService {
   specificCategory(id:string | null):Observable<any>{
     return this._HttpClient.get(`${environment.baseURL}/api/v1/categories/${id}`)
   }
+
+  getSubCategory(id:string | null):Observable<any>{
+    return this._HttpClient.get(`${environment.baseURL}/api/v1/categories/${id}/subcategories`)
+  }
 }
