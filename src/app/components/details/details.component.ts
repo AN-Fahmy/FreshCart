@@ -28,7 +28,6 @@ export class DetailsComponent implements OnInit, OnDestroy{
   /*##################################### Global Properties ##################################### */
   specificProductSub!:Subscription
   cartSub!:Subscription
-  wishListSub!:Subscription
   detailsProduct:IProduct | null = null
   wishListIds:Signal<string[]> = computed(()=> this._WishlistService.wishListId())
 
@@ -88,8 +87,7 @@ export class DetailsComponent implements OnInit, OnDestroy{
         if(res.status == 'success'){
           this._ToastrService.success(res.message)
           this._WishlistService.wishListId.set(res.data)
-          console.log(this.wishListIds());
-
+          this._WishlistService.countWishItems.set(res.data.length)
         }
       }
     })
@@ -102,7 +100,8 @@ export class DetailsComponent implements OnInit, OnDestroy{
         if(res.status == 'success'){
           this._ToastrService.error('Deleted !')
           this._WishlistService.wishListId.set(res.data)
-          console.log(this.wishListIds());
+          this._WishlistService.countWishItems.set(res.data.length)
+
         }
       }
     })
@@ -112,6 +111,5 @@ export class DetailsComponent implements OnInit, OnDestroy{
   ngOnDestroy(): void {
     this.specificProductSub?.unsubscribe()
     this.cartSub?.unsubscribe()
-    this.wishListSub?.unsubscribe()
   }
 }

@@ -34,7 +34,7 @@
           <div class="d-flex justify-content-around w-100 mt-2">
             <button class="btn btn-success w-75" (click)="addCart(detailsProduct.id)">Add To Cart</button>
             @if(!wishListIds().includes(detailsProduct.id)){
-              <i class="fs-3 text-danger fa-regular fa-heart cr" (click)="addWishList(detailsProduct.id)"></i>
+              <i class="fs-3 fa-solid fa-heart cr" (click)="addWishList(detailsProduct.id)"></i>
             }
             @if(wishListIds().includes(detailsProduct.id)){
               <i class="fs-3 text-danger fa-solid fa-heart cr" (click)="deletewishlistItem(detailsProduct.id)"></i>

@@ -27,9 +27,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   /*##################################### Global Properties ##################################### */
   allProductsSub!:Subscription
+  AnotherProductsSub!:Subscription
   CartsSub!:Subscription
   wishSub!:Subscription
   allProducts:WritableSignal<IProduct[]> = signal([])
+  anotherProducts:WritableSignal<IProduct[]> = signal([])
   dataSearch:WritableSignal<string> = signal('')
   wishListIds:Signal<string[]> = computed(()=> this._WishlistService.wishListId())
 
@@ -38,6 +40,12 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.allProductsSub = this._ProductsService.getAllProducts().subscribe({
       next:(res)=>{
         this.allProducts.set(res.data)
+      }
+    })
+
+    this.AnotherProductsSub = this._ProductsService.getAnotherProducts().subscribe({
+      next:(res)=>{
+        this.anotherProducts.set(res.data)
       }
     })
 
@@ -68,6 +76,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
         if(res.status == 'success'){
           this._ToastrService.success(res.message)
           this._WishlistService.wishListId.set(res.data)
+          this._WishlistService.countWishItems.set(res.data.length)
         }
       }
     })
@@ -79,6 +88,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
         if(res.status == "success"){
           this._ToastrService.error('Delete It !')
           this._WishlistService.wishListId.set(res.data)
+          this._WishlistService.countWishItems.set(res.data.length)
         }
       }
     })

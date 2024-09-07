@@ -32,7 +32,7 @@ export class SubCategoryComponent implements OnInit, OnDestroy {
           next:(res)=>{
           if(res.data.length > 0){
             this.allSubCategory.set(res.data)
-          }else{
+          } else{
             this.msgUndefind.set('Sorry, There is no subcategories for this Category')
           }
           }

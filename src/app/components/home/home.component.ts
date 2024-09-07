@@ -119,9 +119,12 @@ export class HomeComponent implements OnInit , OnDestroy {
   addWishList(productId:string):void{
     this._WishlistService.addProductToWishlist(productId).subscribe({
       next:(res)=>{
+        console.log(res.data.length);
+
         if(res.status == 'success'){
           this._ToastrService.success(res.message)
           this._WishlistService.wishListId.set(res.data)
+          this._WishlistService.countWishItems.set(res.data.length)
         }
       }
     })
@@ -134,6 +137,7 @@ export class HomeComponent implements OnInit , OnDestroy {
         if(res.status == 'success'){
           this._ToastrService.error('Deleted !')
           this._WishlistService.wishListId.set(res.data)
+          this._WishlistService.countWishItems.set(res.data.length)
         }
       }
     })

@@ -20,7 +20,6 @@ export class WhishlistComponent implements OnInit, OnDestroy {
   private readonly _CartService = inject(CartService)
 
   /*##################################### Global Properties ##################################### */
-  wishSub!:Subscription
   cartSub!:Subscription
   deleteSub!:Subscription
   // countWishList:number = 0
@@ -30,7 +29,7 @@ export class WhishlistComponent implements OnInit, OnDestroy {
 
   /*##################################### Get All Product In WishList ##################################### */
   ngOnInit(): void {
-    this.wishSub = this.allProductInWishlist = this._WishlistService.getProductWishlist().subscribe({
+    this.allProductInWishlist = this._WishlistService.getProductWishlist().subscribe({
       next:(res)=>{
         this.countWishList.set(res.count)
         this.wishList.set(res.data)
@@ -60,8 +59,9 @@ export class WhishlistComponent implements OnInit, OnDestroy {
         if(res.status == 'success'){
           this.allProductInWishlist = this._WishlistService.getProductWishlist().subscribe({
             next:(res)=>{
-              this.countWishList.set(res.count)
               this.wishList.set(res.data)
+              this.countWishList.set(res.count)
+              this._WishlistService.countWishItems.set(res.count)
             }
           })
         }
@@ -77,8 +77,9 @@ export class WhishlistComponent implements OnInit, OnDestroy {
           this._ToastrService.error('Deleted !')
           this.allProductInWishlist = this._WishlistService.getProductWishlist().subscribe({
             next:(res)=>{
-              this.countWishList.set(res.count)
               this.wishList.set(res.data)
+              this.countWishList.set(res.count)
+              this._WishlistService.countWishItems.set(res.count)
             }
           })
         }
@@ -88,7 +89,7 @@ export class WhishlistComponent implements OnInit, OnDestroy {
 
   /*##################################### Unsubscrib ##################################### */
   ngOnDestroy(): void {
-    this.wishSub?.unsubscribe()
+    this.allProductInWishlist?.unsubscribe()
     this.cartSub?.unsubscribe()
     this.deleteSub?.unsubscribe()
   }
